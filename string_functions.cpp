@@ -39,8 +39,9 @@ int custom_strlen( const char *s )
 char *custom_strcpy( char *destiny, const char *source)
     {
     int i = 0;
-    while( (destiny[i] = source[i]) != '\0' )
-        i++;
+
+    while( source[i] != '\0' )
+        destiny[i] = source[i++];
 
     return destiny;
     }
@@ -50,8 +51,8 @@ char *custom_strcat( char *s, const char *c )
     int len = custom_strlen(s);
     int i = 0;
 
-    while( (s[len+i] = c[i]) != '\0' )
-        i++;
+    while( c[i] != '\0' )
+        s[len+i] = c[i++];
 
     return s;
     }
@@ -61,8 +62,8 @@ char *custom_strncat( char *s, const char *c, int n)
     int len = custom_strlen(s);
     int i = 0;
 
-    while( (n--) > 0 && (s[len+i] = c[i]) != '\0')
-        i++;
+    while( (n--) > 0 && c[i] != '\0')
+        s[len+i] = c[i++];
 
     return s;
     }
@@ -71,8 +72,13 @@ char *custom_fgets( char *s, int MAX_LEN, FILE *iop)
     {
     int i = 0, c = 0;
 
-    while( (--MAX_LEN) > 0 && (c = fgetc(iop) ) != EOF && c != '\n' )
-        s[i++] = c;
+    while( --MAX_LEN > 0 && c != EOF && c != '\n' )
+        {
+        c = fgetc(iop);
+
+        if ( c != EOF )
+            s[i++] = c;
+        }
 
     if( MAX_LEN == 0 )
         return NULL;
@@ -102,8 +108,13 @@ int custom_getline( char *s, int MAX_LEN )
     {
     int i = 0, c = 0;
 
-    while( (--MAX_LEN > 0) && (c = getchar()) != EOF && c != '\n' )
-        s[i++] = c;
+    while( --MAX_LEN > 0 && c!= EOF && c != '\n' )
+        {
+        c = getchar();
+
+        if( c != EOF )
+            s[i++] = c;
+        }
 
     s[i] = '\0';
 
